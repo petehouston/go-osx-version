@@ -4,7 +4,7 @@ import (
 	"os/exec"
 )
 
-const CMD_NAME = "sw_vers"
+const CMD_NAME = "/usr/bin/sw_vers"
 const CMD_OPTION_NAME = "-productName"
 const CMD_OPTION_VERSION = "-productVersion"
 const CMD_OPTION_BUILDVERSION = "-buildVersion"
@@ -15,8 +15,8 @@ type OSXVersion struct {
 	BuildVersion string
 }
 
-func callCommand(cmd string) (string, error)  {
-	out, err := exec.Command(cmd).Output()
+func callCommand(cmd string, opt string) (string, error)  {
+	out, err := exec.Command(cmd, opt).Output()
 	if err != nil {
 		return "", err
 	}
@@ -24,15 +24,15 @@ func callCommand(cmd string) (string, error)  {
 }
 
 func getOSXVersion() (string, error) {
-	return callCommand(CMD_NAME + " " + CMD_OPTION_VERSION)
+	return callCommand(CMD_NAME, CMD_OPTION_VERSION)
 }
 
 func getOSXName() (string, error) {
-	return callCommand(CMD_NAME + " " + CMD_OPTION_NAME)
+	return callCommand(CMD_NAME, CMD_OPTION_NAME)
 }
 
 func getOSXBuildVersion() (string, error) {
-	return callCommand(CMD_NAME + " " + CMD_OPTION_BUILDVERSION)
+	return callCommand(CMD_NAME, CMD_OPTION_BUILDVERSION)
 }
 
 func (v *OSXVersion) Query() error {
